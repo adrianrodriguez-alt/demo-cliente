@@ -7,16 +7,21 @@ Prepara la **demo inicial de un cliente nuevo** a partir de su cahier des charge
 3. Escribe un resumen del proyecto y propone un mapa de pantallas. Se para aquí y espera tu confirmación.
 4. Construye un back-office **Django + JS** con la marca del cliente, en su idioma, con CRUD en modales. Lo verifica con capturas.
 
-## Instalación
+## Instalación (plugin de Claude Code)
 
-Clona el repo dentro de tus skills de usuario de Claude Code:
-
-```powershell
-git clone https://github.com/adrianrodriguez-alt/demo-cliente.git "$env:USERPROFILE\.claude\skills\demo-cliente"
+Dentro de Claude Code:
 ```
-(macOS/Linux: `~/.claude/skills/demo-cliente`). Abre una conversación **nueva** de Claude Code. Si escribes `/`, debería aparecer `demo-cliente`.
+/plugin marketplace add adrianrodriguez-alt/demo-cliente
+/plugin install demo-cliente@koralya
+```
+O desde la terminal:
+```
+claude plugin marketplace add adrianrodriguez-alt/demo-cliente
+claude plugin install demo-cliente@koralya
+```
+Después abre una conversación **nueva**. La skill se activa sola cuando pides una demo, o se llama con `/demo-cliente:demo-cliente`.
 
-Para actualizar: `git -C "$env:USERPROFILE\.claude\skills\demo-cliente" pull`.
+**Actualizar:** `/plugin marketplace update koralya` (o activa la actualización automática en `/plugin` → Marketplaces).
 
 ## Requisitos
 - **Conector MCP de Koralya** activo en Claude (para leer el CDC y los documentos del cliente).
@@ -37,11 +42,12 @@ Te preguntará el idioma de la app (francés por defecto) y el alcance. Si el cl
 ## Qué hay dentro
 | Ruta | Qué es |
 |---|---|
-| `SKILL.md` | El proceso completo (lo lee Claude). |
-| `references/` | Guías por fase: recopilación, traducciones, identidad visual, plan, construcción y revisión. |
-| `scripts/scaffold.py` | Crea el proyecto Django a partir de un `plan.json` (rutas, navegación y pantallas vacías). |
-| `scripts/tokens.py` | Genera la paleta (`tokens.css`) a partir del color del cliente. |
-| `scripts/cahier_to_md.py` | Convierte el CDC del MCP (HTML) a Markdown. |
-| `assets/base/` | Base Django común: componentes, JS de interacciones (modales, CRUD, kanban…), login, herramientas `smoke.py` y `shot.py`. |
+| `.claude-plugin/` | Manifiesto del plugin y del marketplace `koralya`. |
+| `skills/demo-cliente/SKILL.md` | El proceso completo (lo lee Claude). |
+| `skills/demo-cliente/references/` | Guías por fase: recopilación, traducciones, identidad visual, plan, construcción y revisión. |
+| `skills/demo-cliente/scripts/scaffold.py` | Crea el proyecto Django a partir de un `plan.json` (rutas, navegación y pantallas vacías). |
+| `skills/demo-cliente/scripts/tokens.py` | Genera la paleta (`tokens.css`) a partir del color del cliente. |
+| `skills/demo-cliente/scripts/cahier_to_md.py` | Convierte el CDC del MCP (HTML) a Markdown. |
+| `skills/demo-cliente/assets/base/` | Base Django común: componentes, JS de interacciones (modales, CRUD, kanban…), login, herramientas `smoke.py` y `shot.py`. |
 
 La carpeta de cada cliente (documentos, traducciones, demo) se crea fuera de este repo, en el directorio donde abras Claude Code.

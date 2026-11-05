@@ -15,6 +15,8 @@ La referencia de calidad es nuestra mejor demo hasta ahora (una pyme industrial)
 
 La comunicación con el usuario es siempre en **español**, aunque la app vaya en francés.
 
+**Ruta de la skill:** `${CLAUDE_SKILL_DIR}`. En este archivo y en `references/`, `<skill>` significa esa ruta. Ejecuta siempre los scripts con su ruta completa (`python "<skill>/scripts/…"`), porque trabajarás en la carpeta del cliente, no en la de la skill.
+
 ## Fase 0 · Arranque y preguntas
 
 1. `who_am_i()` del MCP Koralya (si las herramientas `mcp__claude_ai_Koralya__*` están diferidas, cárgalas con ToolSearch en una sola llamada). Así sabes quién eres y a qué clientes tienes acceso.
@@ -28,7 +30,7 @@ La comunicación con el usuario es siempre en **español**, aunque la app vaya e
 ## Fase 1 · Recoger los documentos
 
 Lee [references/recopilacion.md](references/recopilacion.md) y síguelo. En resumen:
-- `get_cahier(cliente)` es la fuente principal y, si está validado, la que manda. Suele ser enorme, así que se guarda en disco y se convierte con `scripts/cahier_to_md.py`.
+- `get_cahier(cliente)` es la fuente principal y, si está validado, la que manda. Suele ser enorme, así que se guarda en disco y se convierte con `<skill>/scripts/cahier_to_md.py`.
 - `list_documents`/`search_documents` + `read_document` para el resto: auditoría, recomendaciones, transcripciones, carta gráfica, Excels de procesos actuales, etc.
 - Busca también en local (la carpeta del cliente, descargas que el usuario indique). Los `.zip` del MCP no se pueden descargar: si hay uno con la auditoría, pide al usuario que lo descomprima en `documentos/`.
 - Todo acaba en `documentos/` con su nombre original y el CDC en Markdown.
@@ -52,7 +54,7 @@ Pide confirmación del mapa de pantallas antes de construir: es la única decisi
 ## Fase 4 · Base (la haces tú, el lead)
 
 Sigue [references/construccion.md](references/construccion.md) § Base:
-1. Escribe `plan.json` y ejecuta `python scripts/scaffold.py --plan plan.json --dest <carpeta cliente>`. Esto genera el proyecto, `tokens.css`, las rutas, la navegación y los stubs de cada pantalla.
+1. Escribe `plan.json` y ejecuta `python "<skill>/scripts/scaffold.py" --plan plan.json --dest <carpeta cliente>`. Esto genera el proyecto, `tokens.css`, las rutas, la navegación y los stubs de cada pantalla.
 2. Personaliza lo común: logo y símbolo (`partials/mark.html`, favicon), `core/data/common.py` (BRAND, USERS con las personas reales del audit, datos compartidos), notificaciones, motivo de la pantalla de login y **dashboard** como página modelo.
 3. Rellena `DESIGN_GUIDE.md` (contexto, vocabulario, personas, reglas de la carta gráfica). Es lo único que leerán los agentes de módulo, así que tiene que bastarles.
 4. Arranca el servidor en segundo plano (`python manage.py runserver 127.0.0.1:8765`) y comprueba la base con `tools/smoke.py` y capturas antes de seguir.

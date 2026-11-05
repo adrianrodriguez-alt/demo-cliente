@@ -1,0 +1,7 @@
+{
+  "name": "demo-cliente",
+  "description": "Prepara la demo inicial de un cliente de Koralya/HeraHub a partir de su CDC: recoge y traduce los documentos, resume el proyecto y construye un back-office Django + JS con la marca del cliente.",
+  "version": "1.0.0",
+  "author": { "name": "Adrian Rodriguez" },
+  "repository": "https://github.com/adrianrodriguez-alt/demo-cliente"
+}
