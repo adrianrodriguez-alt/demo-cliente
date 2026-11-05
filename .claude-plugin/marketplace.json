@@ -4,12 +4,12 @@
     "name": "Adrian Rodriguez"
   },
   "metadata": {
-    "description": "Skills de Claude Code de Koralya / HeraHub"
+    "description": "Plugins y skills de Claude Code del equipo de Koralya / HeraHub"
   },
   "plugins": [
     {
       "name": "demo-cliente",
-      "source": "./",
+      "source": "./plugins/demo-cliente",
       "description": "Demo de cliente Django a partir del cahier des charges: documentos, traducciones, resumen y back-office con la marca del cliente."
     }
   ]

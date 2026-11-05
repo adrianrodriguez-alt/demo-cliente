@@ -1,0 +1,6 @@
+{
+  "name": "mi-plugin",
+  "description": "Qué hace el plugin, en una frase.",
+  "version": "1.0.0",
+  "author": { "name": "Tu nombre" }
+}
