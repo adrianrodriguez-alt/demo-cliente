@@ -1,0 +1,7 @@
+{# Confirmation commune (suppression, actions irréversibles) : ouverte par [data-delete] / [data-confirm]. #}
+<dialog class="modal confirm" id="ui-confirm">
+  <div class="modal-head"><h2 data-confirm-text>{{ t.confirm_delete }}</h2><button class="icon-btn" type="button" data-close aria-label="{{ t.close }}"><i data-lucide="x"></i></button></div>
+  <div class="modal-foot"><button class="btn btn-ghost" type="button" data-close>{{ t.cancel }}</button><button class="btn btn-danger" type="button" data-confirm-ok>{{ t.delete }}</button></div>
+</dialog>
+{{ t|json_script:"ui-text" }}
+<script>window.UI_TEXT = JSON.parse(document.getElementById("ui-text").textContent);</script>

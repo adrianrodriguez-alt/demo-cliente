@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="__HTML_LANG__" data-moved-to="{{ t.moved_to }}">
+<head>
+  {% include "partials/head.html" %}
+  <title>{% block title %}{{ brand.name }}{% endblock %} · {{ brand.name }}</title>
+  {% block extra_head %}{% endblock %}
+</head>
+<body {% block body_attrs %}{% endblock %}>
+<div class="app">
+  {% include "partials/sidebar.html" %}
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn burger" type="button" aria-label="{{ t.menu }}"><i data-lucide="menu"></i></button>
+      <button class="search-trigger" type="button" data-palette>
+        <i data-lucide="search" class="icon-sm"></i><span>{{ t.search }}</span><span class="kbd">Ctrl K</span>
+      </button>
+      <div class="spacer"></div>
+      {% block topbar_extra %}{% endblock %}
+      <div style="position:relative">
+        <button class="icon-btn" type="button" aria-label="{{ t.notifications }}" data-popover="notif-pop">
+          <i data-lucide="bell"></i><span class="dot"></span>
+        </button>
+        <div class="popover notif-pop" id="notif-pop">
+          <div class="pop-head"><h3>{{ t.notifications }}</h3><button class="btn btn-ghost btn-sm" type="button" data-mark-read>{{ t.mark_read }}</button></div>
+          <div style="padding-bottom:10px">
+            {% include "partials/notifications.html" %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+
+<dialog class="palette" id="palette" aria-label="{{ t.search }}">
+  <div class="p-input"><i data-lucide="search" class="icon"></i><input type="text" placeholder="{{ t.search_placeholder }}"><span class="kbd">{{ t.escape }}</span></div>
+  <div class="p-list">
+    {% for item in nav %}{% if item.children %}{% for c in item.children %}
+      <a class="p-item" href="{% url c.url %}"><i data-lucide="{{ c.icon }}"></i>{{ c.label }}<small>{{ item.label }}</small></a>
+    {% endfor %}{% elif item.url %}
+      <a class="p-item" href="{% url item.url %}"><i data-lucide="{{ item.icon }}"></i>{{ item.label }}</a>
+    {% endif %}{% endfor %}
+  </div>
+</dialog>
+
+{% block modals %}{% endblock %}
+{% include "partials/confirm.html" %}
+<div class="toasts" aria-live="polite"></div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

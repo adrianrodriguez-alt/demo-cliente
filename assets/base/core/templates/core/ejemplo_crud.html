@@ -1,0 +1,89 @@
+{# MODÈLE CRUD (non routé) : liste + filtres + créer / modifier / supprimer en modales.
+   À copier dans core/templates/<module>/ et adapter. Comportement fourni par app.js (section CRUD).
+   Vue associée : rows = data.<liste>() ; chaque ligne a ses valeurs dans [data-field]. #}
+{% extends "core/base.html" %}
+{% block title %}Commandes{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Commandes <span class="count-pill light" data-count-of="#t-cmd">{{ rows|length }}</span></h1>
+  <div class="actions">
+    <button class="btn btn-outline" type="button" data-toast="Export lancé"><i data-lucide="download"></i>Exporter</button>
+    <button class="btn btn-primary" type="button" data-open="m-cmd"><i data-lucide="plus"></i>Nouvelle commande</button>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="input-icon search-input"><i data-lucide="search" class="icon-sm"></i><input class="input input-sm" type="search" placeholder="Client, référence…" data-search="#t-cmd" aria-label="Rechercher"></div>
+  <div class="row" style="gap:8px" data-filter-target="#t-cmd">
+    <button class="chip is-active" type="button" data-filter="all">Toutes</button>
+    <button class="chip" type="button" data-filter="ouverte">Ouvertes</button>
+    <button class="chip" type="button" data-filter="livree">Livrées</button>
+  </div>
+</div>
+
+<section class="card">
+  <div class="table-wrap">
+    <table class="table" id="t-cmd">
+      <thead><tr><th>Référence</th><th>Client</th><th class="num">Montant</th><th>Statut</th><th class="actions-cell"></th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr data-row data-status="{{ r.status }}">
+          <td><b class="num" data-field="ref">{{ r.ref }}</b></td>
+          <td data-field="client">{{ r.client }}</td>
+          <td class="num strong" data-field="amount">{{ r.amount }}</td>
+          <td><span class="badge {{ r.badge }}" data-field="status" data-value="{{ r.status }}" data-classes='{"ouverte": "badge info", "livree": "badge success"}'>{{ r.status_label }}</span></td>
+          <td class="actions-cell">
+            <div class="menu">
+              <button class="icon-btn sm" type="button" data-menu aria-label="Actions"><i data-lucide="ellipsis"></i></button>
+              <div class="menu-pop">
+                <button type="button" data-edit="m-cmd"><i data-lucide="pencil"></i>Modifier</button>
+                <hr>
+                <button class="danger" type="button" data-delete data-confirm="Supprimer la commande {{ r.ref }} ?" data-toast="Commande supprimée"><i data-lucide="trash-2"></i>Supprimer</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <template data-row-template>
+        <tr data-row data-status="ouverte">
+          <td><b class="num" data-field="ref"></b></td>
+          <td data-field="client"></td>
+          <td class="num strong" data-field="amount"></td>
+          <td><span class="badge info" data-field="status" data-value="ouverte" data-classes='{"ouverte": "badge info", "livree": "badge success"}'></span></td>
+          <td class="actions-cell">
+            <div class="menu">
+              <button class="icon-btn sm" type="button" data-menu aria-label="Actions"><i data-lucide="ellipsis"></i></button>
+              <div class="menu-pop">
+                <button type="button" data-edit="m-cmd"><i data-lucide="pencil"></i>Modifier</button>
+                <hr>
+                <button class="danger" type="button" data-delete data-confirm="Supprimer cette commande ?" data-toast="Commande supprimée"><i data-lucide="trash-2"></i>Supprimer</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </template>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block modals %}
+<dialog class="modal" id="m-cmd">
+  <form data-demo data-crud="#t-cmd" data-toast="Commande créée" data-toast-edit="Commande modifiée">
+    <div class="modal-head"><h2><span data-if="create">Nouvelle commande</span><span data-if="edit">Modifier la commande</span></h2><button class="icon-btn" type="button" data-close aria-label="Fermer"><i data-lucide="x"></i></button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field"><label for="c-ref">Référence</label><input class="input" id="c-ref" name="ref" value="" required></div>
+        <div class="field"><label for="c-client">Client</label>
+          <select class="select" id="c-client" name="client"><option>Dupont Industrie</option><option>Martin Réseaux</option><option>Lumen Énergie</option></select></div>
+        <div class="field"><label for="c-amount">Montant</label><input class="input" id="c-amount" name="amount" value=""></div>
+        <div class="field"><label for="c-status">Statut</label>
+          <select class="select" id="c-status" name="status"><option value="ouverte">Ouverte</option><option value="livree">Livrée</option></select></div>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" type="button" data-close>Annuler</button><button class="btn btn-primary" type="submit">Enregistrer</button></div>
+  </form>
+</dialog>
+{% endblock %}

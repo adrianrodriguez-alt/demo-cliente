@@ -1,0 +1,49 @@
+<aside class="sidebar" aria-label="Navigation">
+  <a class="brand" href="{% url 'dashboard' %}">{% include "partials/mark.html" %}<span>{{ brand.name }}</span></a>
+
+  <nav class="nav">
+    {% for item in nav %}
+      {% if item.section %}
+        <div class="nav-section">{{ item.section }}</div>
+      {% else %}
+        <div class="nav-item{% if item.active %} is-active{% endif %}">
+          <a class="nav-link" href="{% url item.url %}">
+            <i data-lucide="{{ item.icon }}"></i>
+            <span>{{ item.label }}</span>
+            {% if item.children %}<i data-lucide="chevron-right" class="chev"></i>{% endif %}
+          </a>
+          {% if item.children %}
+            <div class="flyout" role="menu">
+              <div class="flyout-title">{{ item.label }}</div>
+              {% for c in item.children %}
+                <a href="{% url c.url %}" role="menuitem" class="{% if c.url == current_url %}is-current{% endif %}">
+                  <i data-lucide="{{ c.icon }}"></i>{{ c.label }}
+                  {% if c.count %}<span class="count">{{ c.count }}</span>{% endif %}
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  <div style="position:relative">
+    <button class="me" type="button" data-popover="profile-pop">
+      <span class="avatar">{{ me.initials }}</span>
+      <span class="who"><b>{{ me.name }}</b><small>{{ me.role }}</small></span>
+      <i data-lucide="chevrons-up-down" class="chev"></i>
+    </button>
+    <div class="popover profile-pop" id="profile-pop">
+      <div class="p-label">{{ t.view_as }}</div>
+      {% for u in all_users %}
+        <form method="post" action="{% url 'login' %}">{% csrf_token %}
+          <input type="hidden" name="profil" value="{{ u.key }}">
+          <button type="submit" class="{% if u.key == me.key %}is-me{% endif %}"><span class="avatar sm{% if u.key != me.key %} gray{% endif %}">{{ u.initials }}</span>{{ u.name }}<span class="muted small" style="margin-left:auto">{{ u.role }}</span></button>
+        </form>
+      {% endfor %}
+      <hr style="border:0;border-top:1px solid var(--border);margin:6px 4px">
+      <a href="{% url 'logout' %}"><i data-lucide="log-out" class="icon-sm"></i>{{ t.logout }}</a>
+    </div>
+  </div>
+</aside>

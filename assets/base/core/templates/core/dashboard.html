@@ -1,0 +1,10 @@
+{% extends "core/base.html" %}
+{% block title %}{{ t.hello }}{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>{{ t.hello }} {{ me.name }}</h1>
+</div>
+{# Le lead construit ici la page modèle : 4 KPI métier, un graphique, les listes « à traiter aujourd'hui »
+   venant des modules (core.data.*). Voir DESIGN_GUIDE.md, section Composants. #}
+{% endblock %}

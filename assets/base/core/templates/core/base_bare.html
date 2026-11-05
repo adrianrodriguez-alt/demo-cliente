@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="__HTML_LANG__" data-moved-to="{{ t.moved_to }}">
+<head>
+  {% include "partials/head.html" %}
+  <title>{% block title %}{{ brand.name }}{% endblock %} · {{ brand.name }}</title>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bare" {% block body_attrs %}{% endblock %}>
+  {% block content %}{% endblock %}
+  {% block modals %}{% endblock %}
+  {% include "partials/confirm.html" %}
+  <div class="toasts" aria-live="polite"></div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
